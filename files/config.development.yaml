@@ -1,0 +1,7 @@
+database:
+  driver: "postgres"
+  host: "localhost"
+  name: "simple_dating_app"
+  password: "postgres"
+  port: 5432
+  user: "postgres"
