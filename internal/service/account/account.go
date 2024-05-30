@@ -91,6 +91,28 @@ func (svc *Service) GetProfileByUserID(ctx context.Context, userID int64) (Profi
 	}, nil
 }
 
+func (svc *Service) GetSwappableProfile(ctx context.Context, userIDs []int64) ([]Profile, error) {
+	profiles, err := svc.db.GetSwappableProfileFromDB(ctx, userIDs)
+	if err != nil {
+		log.Printf("[GetProfileList] svc.db.GetSwappableProfileFromDB() got error: %+v\n", err)
+		return nil, err
+	}
+
+	result := make([]Profile, 0, len(profiles))
+	for _, profile := range profiles {
+		profile := Profile{
+			UserID:     profile.UserID,
+			Username:   profile.Username,
+			PhotoURL:   profile.PhotoURL.String,
+			IsVerified: profile.IsVerified,
+		}
+
+		result = append(result, profile)
+	}
+
+	return result, nil
+}
+
 func (svc *Service) GetUserAccountByUsername(ctx context.Context, username string) (UserAccount, error) {
 	account, err := svc.db.GetUserAccountByUsernameFromDB(ctx, username)
 	if err != nil {

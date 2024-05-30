@@ -27,6 +27,10 @@ type psqlProvider interface {
 	// ExecContext executes a query without returning any rows. The args are for any placeholder parameters in the query.
 	ExecContext(ctx context.Context, query string, args ...any) (sql.Result, error)
 
+	// QueryContext executes a query that returns rows, typically a SELECT.
+	// The args are for any placeholder parameters in the query.
+	QueryContext(ctx context.Context, query string, args ...any) (*sql.Rows, error)
+
 	// QueryRowContext executes a query that is expected to return at most one row.
 	// QueryRowContext always returns a non-nil value.
 	// Errors are deferred until the *Row.Scan method is called.

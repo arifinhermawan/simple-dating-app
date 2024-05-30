@@ -19,7 +19,11 @@ func HandleRequest(handlers *server.Handler, jwtKey string) {
 }
 
 func handleGetRequest(handlers *server.Handler, router *mux.Router, jwtKey string) {
+	// Account
 	router.HandleFunc("/account/{user_id}", authMiddleware(handlers.Account.HandlerGetProfile, jwtKey)).Methods("GET")
+
+	// Swipe
+	router.HandleFunc("/swipe/list", authMiddleware(handlers.Swipe.HandlerGetSwappableProfileList, jwtKey)).Methods("GET")
 }
 
 func handlePostRequest(handlers *server.Handler, router *mux.Router, jwtKey string) {
