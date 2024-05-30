@@ -19,6 +19,7 @@ type dbProvider interface {
 	// profile related method
 	CreateProfileInDB(ctx context.Context, req pgsql.CreateProfileReq) error
 	GetProfileByUserIDFromDB(ctx context.Context, userID int64) (pgsql.Profile, error)
+	GetSwappableProfileFromDB(ctx context.Context, userIDs []int64) ([]pgsql.Profile, error)
 	UpdateProfilePremiumPackageInDB(ctx context.Context, req pgsql.UpdateProfilePremiumPackageReq) error
 }
 

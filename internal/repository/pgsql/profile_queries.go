@@ -18,7 +18,19 @@ var (
 			profile
 		WHERE
 			user_id = $1
+	`
 
+	queryGetSwappableProfileFromDB = `
+		SELECT 
+			user_id,
+			username,
+			photo_url,
+			is_verified
+		FROM
+			profile
+		WHERE
+			user_id NOT IN(%s)
+		LIMIT 10
 	`
 
 	queryUpdateProfilePremiumPackageInDB = `

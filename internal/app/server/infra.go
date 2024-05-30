@@ -2,6 +2,7 @@ package server
 
 import (
 	"io"
+	"time"
 
 	"github.com/arifinhermawan/simple-dating-app/internal/app/infrastructure/configuration"
 	"github.com/arifinhermawan/simple-dating-app/internal/app/infrastructure/golang"
@@ -12,6 +13,8 @@ type configProvider interface {
 }
 
 type golangProvider interface {
+	GetMidnight(input time.Time) time.Time
+	GetTimeNow() time.Time
 	JsonMarshal(input interface{}) ([]byte, error)
 	JsonUnmarshal(input []byte, dest interface{}) error
 	ReadAll(input io.Reader) ([]byte, error)
@@ -43,4 +46,12 @@ func (i *Infra) JsonUnmarshal(input []byte, dest interface{}) error {
 
 func (i *Infra) ReadAll(input io.Reader) ([]byte, error) {
 	return i.Golang.ReadAll(input)
+}
+
+func (i *Infra) GetTimeNow() time.Time {
+	return i.Golang.GetTimeNow()
+}
+
+func (i *Infra) GetMidnight(input time.Time) time.Time {
+	return i.Golang.GetMidnight(input)
 }
