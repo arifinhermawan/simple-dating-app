@@ -10,7 +10,8 @@ This structure is pretty decent. It's easy to understand the purpose of each lay
 
 ## Folders
 
-![alt text](image.png)
+![image](https://github.com/arifinhermawan/simple-dating-app/assets/123822846/d6906706-f345-40b7-b239-564ce4133123)
+
 
 - cmd
 - files
