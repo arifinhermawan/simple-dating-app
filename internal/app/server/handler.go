@@ -16,6 +16,6 @@ func NewHandler(infra *Infra, uc *UseCase) *Handler {
 	return &Handler{
 		Account: account.NewHandler(uc.Account, infra),
 		Premium: premium.NewHandler(infra, uc.Premium),
-		Swipe:   swipe.NewHandler(uc.Swipe),
+		Swipe:   swipe.NewHandler(infra, uc.Swipe),
 	}
 }

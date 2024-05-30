@@ -1,6 +1,16 @@
 package pgsql
 
 var (
+	queryCreateSwipeHistoryInDB = `
+		INSERT INTO
+			swipe_history(swiper_id,swiped_id,swipe_direction)
+		VALUES (
+			$1,
+			$2,
+			$3
+		)
+	`
+
 	queryGetTodaysSwipedList = `
 		SELECT 
 			swiped_id

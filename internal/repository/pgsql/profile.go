@@ -103,3 +103,17 @@ func (r *Repository) UpdateProfilePremiumPackageInDB(ctx context.Context, req Up
 
 	return nil
 }
+
+func (r *Repository) UpdateSwipeCountInDB(ctx context.Context, req UpdateSwipeCountReq) error {
+	cfg := r.infra.GetConfig().Database
+	timeout := time.Duration(cfg.DefaultTimeout) * time.Second
+	ctxQuery, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	_, err := req.Tx.ExecContext(ctxQuery, queryUpdateSwipeCountInDB, req.Count, req.LastSwipeAt, req.UserID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

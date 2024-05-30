@@ -90,7 +90,7 @@ func (h *Handler) HandlerGetProfile(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.ParseInt(userIDstr, 10, 64)
 	if err != nil {
 		result.Code = http.StatusBadRequest
-		result.Error = "user_id not int"
+		result.Error = err.Error()
 		json.NewEncoder(w).Encode(result)
 		return
 	}

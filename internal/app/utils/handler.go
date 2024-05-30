@@ -33,4 +33,7 @@ func handlePostRequest(handlers *server.Handler, router *mux.Router, jwtKey stri
 
 	// Premium
 	router.HandleFunc("/premium/purchase", authMiddleware(handlers.Premium.HandlerBuyPremiumPackage, jwtKey)).Methods("POST")
+
+	// Swipe
+	router.HandleFunc("/swipe", authMiddleware(handlers.Swipe.HandlerSwipe, jwtKey)).Methods("POST")
 }

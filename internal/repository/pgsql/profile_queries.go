@@ -42,4 +42,14 @@ var (
 		WHERE
 			user_id=$3
 	`
+
+	queryUpdateSwipeCountInDB = `
+		UPDATE
+			profile
+		SET
+			swipe_count = $1,
+			last_swipe = $2
+		WHERE
+			user_id = $3
+	`
 )
