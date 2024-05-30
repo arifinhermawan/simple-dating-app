@@ -2,6 +2,7 @@ package configuration
 
 type AppConfig struct {
 	Database DatabaseConfig `yaml:"database"`
+	Token    TokenConfig    `yaml:"token"`
 }
 
 type DatabaseConfig struct {
@@ -12,4 +13,9 @@ type DatabaseConfig struct {
 	Port           int    `yaml:"port"`
 	User           string `yaml:"user"`
 	DefaultTimeout int    `yaml:"default_timeout"`
+}
+
+type TokenConfig struct {
+	DefaultExpiration int    `yaml:"default_expiration"`
+	Key               string `yaml:"jwt_key"`
 }

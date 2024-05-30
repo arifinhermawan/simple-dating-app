@@ -6,3 +6,7 @@ database:
   port: 5432
   user: "postgres"
   default_timeout: 5
+
+token:
+  default_expiration: 1
+  jwt_key: "J8rCtzsJbsXKtDDkIagxdhauklUiOnh5"

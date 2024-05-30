@@ -27,4 +27,5 @@ func handleGetRequest(router *mux.Router) {
 
 func handlePostRequest(handlers *server.Handler, router *mux.Router) {
 	router.HandleFunc("/account/signup", handlers.Account.HandlerCreateUserAccount).Methods("POST")
+	router.HandleFunc("/account/login", handlers.Account.HandlerLogin).Methods("POST")
 }

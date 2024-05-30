@@ -3,9 +3,9 @@ package pgsql
 import "database/sql"
 
 type UserAccount struct {
-	ID       int64  `db:"id"`
-	Username string `db:"username"`
-	Password string `db:"password"`
+	ID       int64
+	Username string
+	Password string
 }
 
 type CreateUserReq struct {
