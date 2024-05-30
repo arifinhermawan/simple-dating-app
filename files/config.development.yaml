@@ -10,3 +10,8 @@ database:
 token:
   default_expiration: 1
   jwt_key: "J8rCtzsJbsXKtDDkIagxdhauklUiOnh5"
+
+premium:
+  mapPackagetoID:
+    "verified": 1
+    "infinite": 2

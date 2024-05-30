@@ -15,6 +15,12 @@ type CreateUserAccountReq struct {
 	PhotoURL string
 }
 
+type UpdateProfilePremiumPackageReq struct {
+	UserID           int64
+	IsVerified       bool
+	IsInfiniteScroll bool
+}
+
 // -------------------
 // | response struct |
 // -------------------

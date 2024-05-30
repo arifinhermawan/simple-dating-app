@@ -3,6 +3,7 @@ package configuration
 type AppConfig struct {
 	Database DatabaseConfig `yaml:"database"`
 	Token    TokenConfig    `yaml:"token"`
+	Premium  PremiumConfig  `yaml:"premium"`
 }
 
 type DatabaseConfig struct {
@@ -18,4 +19,8 @@ type DatabaseConfig struct {
 type TokenConfig struct {
 	DefaultExpiration int    `yaml:"default_expiration"`
 	Key               string `yaml:"jwt_key"`
+}
+
+type PremiumConfig struct {
+	MapPackageToID map[string]int `yaml:"mapPackagetoID"`
 }

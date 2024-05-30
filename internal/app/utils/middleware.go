@@ -3,6 +3,7 @@ package utils
 import (
 	"errors"
 	"net/http"
+	"strconv"
 
 	"github.com/dgrijalva/jwt-go"
 )
@@ -24,7 +25,7 @@ func authMiddleware(endpointHandler func(w http.ResponseWriter, r *http.Request)
 			return
 		}
 
-		err = checkToken(cookie.Value, jwtKey)
+		claim, err := checkToken(cookie.Value, jwtKey)
 		if err != nil {
 			if err == errUnauthorized {
 				http.Error(w, "unauthorized", http.StatusUnauthorized)
@@ -35,11 +36,12 @@ func authMiddleware(endpointHandler func(w http.ResponseWriter, r *http.Request)
 			return
 		}
 
+		r.Header.Add("user_id", strconv.FormatInt(claim.UserID, 10))
 		endpointHandler(w, r)
 	})
 }
 
-func checkToken(token string, jwtKey string) error {
+func checkToken(token string, jwtKey string) (*claims, error) {
 	claim := &claims{}
 
 	jwtToken, err := jwt.ParseWithClaims(token, claim, func(t *jwt.Token) (interface{}, error) {
@@ -47,15 +49,15 @@ func checkToken(token string, jwtKey string) error {
 	})
 	if err != nil {
 		if err == jwt.ErrSignatureInvalid {
-			return errUnauthorized
+			return nil, errUnauthorized
 		}
 
-		return err
+		return nil, err
 	}
 
 	if !jwtToken.Valid {
-		return errUnauthorized
+		return nil, errUnauthorized
 	}
 
-	return nil
+	return claim, nil
 }
