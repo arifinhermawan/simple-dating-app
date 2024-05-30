@@ -7,7 +7,7 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-func (c Configuration) GetConfig() AppConfig {
+func (c *Configuration) GetConfig() *AppConfig {
 	c.doLoadConfigOnce.Do(func() {
 		cfg, err := c.LoadConfig()
 		if err != nil {
@@ -17,10 +17,10 @@ func (c Configuration) GetConfig() AppConfig {
 		c.Config = cfg
 	})
 
-	return c.Config
+	return &c.Config
 }
 
-func (c Configuration) LoadConfig() (AppConfig, error) {
+func (c *Configuration) LoadConfig() (AppConfig, error) {
 	data, err := os.ReadFile("files/config.development.yaml")
 	if err != nil {
 		log.Printf("[LoadConfig] os.ReadFile() got error: %+v\n", err)
