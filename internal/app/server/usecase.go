@@ -16,6 +16,6 @@ func NewUseCase(infra *Infra, svc *Service) *UseCase {
 	return &UseCase{
 		Account: account.NewUsecase(svc.Account),
 		Premium: premium.NewUseCase(svc.Account, svc.Premium, infra),
-		Swipe:   swipe.NewUseCase(svc.Account, svc.Swipe),
+		Swipe:   swipe.NewUseCase(infra, svc.Account, svc.Swipe),
 	}
 }

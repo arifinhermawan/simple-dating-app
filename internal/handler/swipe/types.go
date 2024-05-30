@@ -1,5 +1,13 @@
 package swipe
 
+// -------------------------
+// | structs for parameter |
+// -------------------------
+type swipeReq struct {
+	SwipedID  int64  `json:"swiped_id"`
+	Direction string `json:"direction"`
+}
+
 // ------------------------
 // | structs for response |
 // ------------------------

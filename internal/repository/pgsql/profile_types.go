@@ -2,6 +2,7 @@ package pgsql
 
 import (
 	"database/sql"
+	"time"
 )
 
 // ------------------
@@ -18,6 +19,13 @@ type UpdateProfilePremiumPackageReq struct {
 	UserID           int64
 	IsVerified       bool
 	IsInfiniteScroll bool
+}
+
+type UpdateSwipeCountReq struct {
+	Tx          *sql.Tx
+	Count       int
+	UserID      int64
+	LastSwipeAt time.Time
 }
 
 // -------------------
