@@ -2,6 +2,7 @@ package pgsql
 
 import (
 	"context"
+	"database/sql"
 	"time"
 )
 
@@ -11,10 +12,34 @@ func (r *Repository) CreateProfileInDB(ctx context.Context, req CreateProfileReq
 	ctxQuery, cancel := context.WithTimeout(ctx, timeout)
 	defer cancel()
 
-	_, err := req.Tx.ExecContext(ctxQuery, queryCreateProfileInDB, req.UserID, req.Username)
+	_, err := req.Tx.ExecContext(ctxQuery, queryCreateProfileInDB, req.UserID, req.Username, req.PhotoURL)
 	if err != nil {
 		return err
 	}
 
 	return nil
+}
+
+func (r *Repository) GetProfileByUserIDFromDB(ctx context.Context, userID int64) (Profile, error) {
+	cfg := r.infra.GetConfig().Database
+	timeout := time.Duration(cfg.DefaultTimeout) * time.Second
+	ctxQuery, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	var result Profile
+	err := r.db.QueryRowContext(ctxQuery, queryGetProfileByUserIDFromDB, userID).
+		Scan(
+			&result.UserID,
+			&result.Username,
+			&result.PhotoURL,
+			&result.IsVerified,
+			&result.IsInfiniteScroll,
+			&result.SwipeCount,
+			&result.LastSwipeAt,
+		)
+	if err != nil && err != sql.ErrNoRows {
+		return Profile{}, err
+	}
+
+	return result, nil
 }

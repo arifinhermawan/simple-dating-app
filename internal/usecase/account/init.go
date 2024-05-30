@@ -7,8 +7,9 @@ import (
 )
 
 type accountServiceProvider interface {
-	CreateUserAccount(ctx context.Context, username string, password string) error
-	GenerateToken(username string) (account.Token, error)
+	CreateUserAccount(ctx context.Context, req account.CreateUserAccountReq) error
+	GenerateToken(userID int64) (account.Token, error)
+	GetProfileByUserID(ctx context.Context, userID int64) (account.Profile, error)
 	GetUserAccountByUsername(ctx context.Context, username string) (account.UserAccount, error)
 	ValidatePassword(hashed string, password string) bool
 }

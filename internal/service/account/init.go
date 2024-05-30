@@ -18,6 +18,7 @@ type dbProvider interface {
 
 	// profile related method
 	CreateProfileInDB(ctx context.Context, req pgsql.CreateProfileReq) error
+	GetProfileByUserIDFromDB(ctx context.Context, userID int64) (pgsql.Profile, error)
 }
 
 type infraProvider interface {

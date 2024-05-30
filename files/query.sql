@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS public."user" (
 CREATE TABLE IF NOT EXISTS public.profile (
 	user_id bigint NOT NULL,
 	username varchar(20) NOT NULL,
+	photo_url varchar NULL,
 	is_verified boolean DEFAULT false NOT NULL,
 	is_infinite_scroll boolean DEFAULT false NOT NULL,
 	swipe_count int DEFAULT 0 NULL,
