@@ -1,13 +1,16 @@
 package server
 
-import "github.com/arifinhermawan/simple-dating-app/internal/service/sample"
+import (
+	"github.com/arifinhermawan/simple-dating-app/internal/repository/pgsql"
+	"github.com/arifinhermawan/simple-dating-app/internal/service/account"
+)
 
 type Service struct {
-	Sample *sample.Service
+	Account *account.Service
 }
 
-func NewService() *Service {
+func NewService(db *pgsql.Repository) *Service {
 	return &Service{
-		Sample: sample.NewService(),
+		Account: account.NewService(db),
 	}
 }

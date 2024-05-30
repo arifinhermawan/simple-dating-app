@@ -5,6 +5,7 @@ import (
 
 	"github.com/arifinhermawan/simple-dating-app/internal/app/server"
 	"github.com/arifinhermawan/simple-dating-app/internal/app/utils"
+	"github.com/arifinhermawan/simple-dating-app/internal/repository/pgsql"
 )
 
 func NewApplication() {
@@ -12,17 +13,20 @@ func NewApplication() {
 	cfg := infra.Config.GetConfig()
 
 	// init db connection
-	err := utils.InitDBConn(cfg.Database)
+	db, err := utils.InitDBConn(cfg.Database)
 	if err != nil {
 		log.Fatalf("[NewApplication] utils.InitDBConn() got error: %+v\n", err)
 	}
+	defer db.Close()
 
 	// ----------------
 	// |init app stack|
 	// ----------------
+	repoDB := pgsql.NewRepository(infra, db)
+	services := server.NewService(repoDB)
+	usecases := server.NewUseCase(services)
+	handlers := server.NewHandler(usecases, infra)
 
-	_ = server.NewService()
-	_ = server.NewUseCase()
-	_ = server.NewHandler()
-
+	// register handler
+	utils.HandleRequest(handlers)
 }

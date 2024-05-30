@@ -11,38 +11,33 @@ import (
 	_ "github.com/lib/pq"
 )
 
-var (
-	sqlOpen = sql.Open
-)
-
-func InitDBConn(cfg configuration.DatabaseConfig) error {
+func InitDBConn(cfg configuration.DatabaseConfig) (*sql.DB, error) {
 	createDatabaseIfNotExist(cfg)
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
 		"password=%s dbname=%s sslmode=disable",
 		cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.Name)
 
-	db, err := sqlOpen(cfg.Driver, psqlInfo)
+	db, err := sql.Open(cfg.Driver, psqlInfo)
 	if err != nil {
 		log.Printf("[initDBConn] sql.Open() got error: %+v\n", err)
-		return err
+		return nil, err
 	}
-	defer db.Close()
 
 	err = db.Ping()
 	if err != nil {
 		log.Printf("[initDBConn] db.Ping() got error: %+v\n", err)
-		return err
+		return nil, err
 	}
 
 	err = initTable(db)
 	if err != nil {
 		log.Printf("[initDBConn] initTable() got error: %+v\n", err)
-		return err
+		return nil, err
 	}
 
 	log.Println("successfully connect to database - initDBConn")
-	return nil
+	return db, nil
 }
 
 func createDatabaseIfNotExist(cfg configuration.DatabaseConfig) {

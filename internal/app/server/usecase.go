@@ -1,13 +1,15 @@
 package server
 
-import "github.com/arifinhermawan/simple-dating-app/internal/usecase/sample"
+import (
+	"github.com/arifinhermawan/simple-dating-app/internal/usecase/account"
+)
 
 type UseCase struct {
-	Sample *sample.UseCase
+	Account *account.UseCase
 }
 
-func NewUseCase() *UseCase {
+func NewUseCase(svc *Service) *UseCase {
 	return &UseCase{
-		Sample: sample.NewUseCase(),
+		Account: account.NewUsecase(svc.Account),
 	}
 }

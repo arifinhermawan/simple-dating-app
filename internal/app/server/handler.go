@@ -1,13 +1,13 @@
 package server
 
-import "github.com/arifinhermawan/simple-dating-app/internal/handler/sample"
+import "github.com/arifinhermawan/simple-dating-app/internal/handler/account"
 
 type Handler struct {
-	Sample *sample.Handler
+	Account *account.Handler
 }
 
-func NewHandler() *Handler {
+func NewHandler(uc *UseCase, infra *Infra) *Handler {
 	return &Handler{
-		Sample: sample.NewHandler(),
+		Account: account.NewHandler(uc.Account, infra),
 	}
 }

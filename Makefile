@@ -2,8 +2,10 @@
 
 # for dependencies
 dep:
-	@echo "RUNNING GO MOD..."
+	@echo "RUNNING GO MOD TIDY..."
 	@go mod tidy
+
+	@echo "RUNNING GO MOD VENDOR..."
 	@go mod vendor
 
 run:

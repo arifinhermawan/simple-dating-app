@@ -5,3 +5,4 @@ database:
   password: "postgres"
   port: 5432
   user: "postgres"
+  default_timeout: 5
