@@ -28,5 +28,5 @@ func NewApplication() {
 	handlers := server.NewHandler(usecases, infra)
 
 	// register handler
-	utils.HandleRequest(handlers)
+	utils.HandleRequest(handlers, cfg.Token.Key)
 }
