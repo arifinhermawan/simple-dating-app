@@ -39,7 +39,7 @@ func (h *Handler) HandlerCreateUserAccount(w http.ResponseWriter, r *http.Reques
 
 	if request.Username == "" {
 		result.Code = http.StatusBadRequest
-		result.Error = errUsernameEmpty.Error()
+		result.Error = constant.ErrUsernameEmpty.Error()
 
 		json.NewEncoder(w).Encode(result)
 		return
@@ -47,7 +47,7 @@ func (h *Handler) HandlerCreateUserAccount(w http.ResponseWriter, r *http.Reques
 
 	if request.Password == "" {
 		result.Code = http.StatusBadRequest
-		result.Error = errPasswordEmpty.Error()
+		result.Error = constant.ErrPasswordEmpty.Error()
 
 		json.NewEncoder(w).Encode(result)
 		return
@@ -146,7 +146,7 @@ func (h *Handler) HandlerLogin(w http.ResponseWriter, r *http.Request) {
 
 	if request.Username == "" {
 		result.Code = http.StatusBadRequest
-		result.Error = errUsernameEmpty.Error()
+		result.Error = constant.ErrUsernameEmpty.Error()
 
 		json.NewEncoder(w).Encode(result)
 		return
@@ -154,7 +154,7 @@ func (h *Handler) HandlerLogin(w http.ResponseWriter, r *http.Request) {
 
 	if request.Password == "" {
 		result.Code = http.StatusBadRequest
-		result.Error = errPasswordEmpty.Error()
+		result.Error = constant.ErrPasswordEmpty.Error()
 
 		json.NewEncoder(w).Encode(result)
 		return
@@ -176,6 +176,7 @@ func (h *Handler) HandlerLogin(w http.ResponseWriter, r *http.Request) {
 		Name:    "token",
 		Value:   token.Value,
 		Expires: token.ExpiresAt,
+		Path:    "/",
 	})
 
 	json.NewEncoder(w).Encode(result)

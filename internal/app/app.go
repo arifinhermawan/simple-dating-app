@@ -24,8 +24,8 @@ func NewApplication() {
 	// ----------------
 	repoDB := pgsql.NewRepository(infra, db)
 	services := server.NewService(repoDB, infra)
-	usecases := server.NewUseCase(services)
-	handlers := server.NewHandler(usecases, infra)
+	usecases := server.NewUseCase(infra, services)
+	handlers := server.NewHandler(infra, usecases)
 
 	// register handler
 	utils.HandleRequest(handlers, cfg.Token.Key)

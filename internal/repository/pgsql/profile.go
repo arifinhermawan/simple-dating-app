@@ -43,3 +43,17 @@ func (r *Repository) GetProfileByUserIDFromDB(ctx context.Context, userID int64)
 
 	return result, nil
 }
+
+func (r *Repository) UpdateProfilePremiumPackageInDB(ctx context.Context, req UpdateProfilePremiumPackageReq) error {
+	cfg := r.infra.GetConfig().Database
+	timeout := time.Duration(cfg.DefaultTimeout) * time.Second
+	ctxQuery, cancel := context.WithTimeout(ctx, timeout)
+	defer cancel()
+
+	_, err := r.db.ExecContext(ctxQuery, queryUpdateProfilePremiumPackageInDB, req.IsVerified, req.IsInfiniteScroll, req.UserID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
