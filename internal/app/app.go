@@ -23,7 +23,7 @@ func NewApplication() {
 	// |init app stack|
 	// ----------------
 	repoDB := pgsql.NewRepository(infra, db)
-	services := server.NewService(repoDB)
+	services := server.NewService(repoDB, infra)
 	usecases := server.NewUseCase(services)
 	handlers := server.NewHandler(usecases, infra)
 

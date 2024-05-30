@@ -3,10 +3,13 @@ package account
 import (
 	"context"
 	"io"
+
+	"github.com/arifinhermawan/simple-dating-app/internal/usecase/account"
 )
 
 type accountUseCaseProvider interface {
 	CreateUserAccount(ctx context.Context, username string, password string) error
+	Login(ctx context.Context, username string, password string) (account.Token, error)
 }
 
 type infraProvider interface {

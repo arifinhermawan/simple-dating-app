@@ -9,8 +9,8 @@ type Service struct {
 	Account *account.Service
 }
 
-func NewService(db *pgsql.Repository) *Service {
+func NewService(db *pgsql.Repository, infra *Infra) *Service {
 	return &Service{
-		Account: account.NewService(db),
+		Account: account.NewService(db, infra),
 	}
 }
