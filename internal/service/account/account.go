@@ -15,9 +15,9 @@ var (
 	compareHashPassword  = bcrypt.CompareHashAndPassword
 )
 
-func (svc *Service) CreateUserAccount(ctx context.Context, username string, password string) error {
+func (svc *Service) CreateUserAccount(ctx context.Context, req CreateUserAccountReq) error {
 	metadata := map[string]interface{}{
-		"username": username,
+		"username": req.Username,
 	}
 
 	tx, err := svc.db.BeginTX(ctx, nil)
@@ -34,7 +34,7 @@ func (svc *Service) CreateUserAccount(ctx context.Context, username string, pass
 		}
 	}()
 
-	hashed, err := generateFromPassword([]byte(password), bcrypt.DefaultCost)
+	hashed, err := generateFromPassword([]byte(req.Password), bcrypt.DefaultCost)
 	if err != nil {
 		log.Printf("[CreateUserAccount] generateFromPassword() got error: %+v\nMeta:%+v\n", err, metadata)
 		return err
@@ -42,7 +42,7 @@ func (svc *Service) CreateUserAccount(ctx context.Context, username string, pass
 
 	returningID, err := svc.db.CreateUserAccountInDB(ctx, pgsql.CreateUserReq{
 		Tx:       tx,
-		Username: username,
+		Username: req.Username,
 		Password: string(hashed),
 	})
 	if err != nil {
@@ -53,7 +53,8 @@ func (svc *Service) CreateUserAccount(ctx context.Context, username string, pass
 	err = svc.db.CreateProfileInDB(ctx, pgsql.CreateProfileReq{
 		Tx:       tx,
 		UserID:   returningID,
-		Username: username,
+		Username: req.Username,
+		PhotoURL: req.PhotoURL,
 	})
 	if err != nil {
 		log.Printf("[CreateUserAccount] svc.db.CreateProfileInDB() got error: %+v\nMeta:%+v\n", err, metadata)
@@ -69,6 +70,27 @@ func (svc *Service) CreateUserAccount(ctx context.Context, username string, pass
 	return nil
 }
 
+func (svc *Service) GetProfileByUserID(ctx context.Context, userID int64) (Profile, error) {
+	profile, err := svc.db.GetProfileByUserIDFromDB(ctx, userID)
+	if err != nil {
+		metadata := map[string]interface{}{
+			"user_id": userID,
+		}
+		log.Printf("[GetProfileByUserID] svc.db.GetProfileByUserIDFromDB() got error: %+v\nMeta:%+v\n", err, metadata)
+		return Profile{}, err
+	}
+
+	return Profile{
+		UserID:           profile.UserID,
+		Username:         profile.Username,
+		PhotoURL:         profile.PhotoURL.String,
+		IsVerified:       profile.IsVerified,
+		IsInfiniteScroll: profile.IsInfiniteScroll,
+		SwipeCount:       profile.SwipeCount,
+		LastSwipeAt:      profile.LastSwipeAt.Time,
+	}, nil
+}
+
 func (svc *Service) GetUserAccountByUsername(ctx context.Context, username string) (UserAccount, error) {
 	account, err := svc.db.GetUserAccountByUsernameFromDB(ctx, username)
 	if err != nil {
@@ -82,11 +104,11 @@ func (svc *Service) GetUserAccountByUsername(ctx context.Context, username strin
 	return UserAccount(account), nil
 }
 
-func (svc *Service) GenerateToken(username string) (Token, error) {
+func (svc *Service) GenerateToken(userID int64) (Token, error) {
 	cfg := svc.infra.GetConfig().Token
 	expiredAt := time.Now().Add(time.Duration(cfg.DefaultExpiration) * time.Hour)
 	claims := claims{
-		Username: username,
+		UserID: userID,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expiredAt.Unix(),
 		},

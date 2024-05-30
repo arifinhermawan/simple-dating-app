@@ -2,14 +2,20 @@ package pgsql
 
 import "database/sql"
 
-type UserAccount struct {
-	ID       int64
+// ------------------
+// | request struct |
+// ------------------
+type CreateUserReq struct {
+	Tx       *sql.Tx
 	Username string
 	Password string
 }
 
-type CreateUserReq struct {
-	Tx       *sql.Tx
+// -------------------
+// | response struct |
+// -------------------
+type UserAccount struct {
+	ID       int64
 	Username string
 	Password string
 }

@@ -8,7 +8,8 @@ import (
 )
 
 type accountUseCaseProvider interface {
-	CreateUserAccount(ctx context.Context, username string, password string) error
+	CreateUserAccount(ctx context.Context, req account.CreateUserAccountReq) error
+	GetProfileByUserID(ctx context.Context, userID int64) (account.Profile, error)
 	Login(ctx context.Context, username string, password string) (account.Token, error)
 }
 
