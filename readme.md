@@ -12,7 +12,6 @@ This structure is pretty decent. It's easy to understand the purpose of each lay
 
 ![image](https://github.com/arifinhermawan/simple-dating-app/assets/123822846/d6906706-f345-40b7-b239-564ce4133123)
 
-
 - cmd
 - files
 - internal
@@ -72,3 +71,5 @@ This is the layer where specific driver implementation lies. In this layer we ca
 
 1. `make dep` (fetching all dependency)
 2. `make run`
+
+awkgnwalkgnawl
