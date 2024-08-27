@@ -9,4 +9,8 @@ dep:
 	@go mod vendor
 
 run:
-	@go run cmd\main.go
+	@echo "Starting Docker containers...";\
+	docker-compose up -d; 
+
+	@echo "Running Go application..."
+	@go run main.go
