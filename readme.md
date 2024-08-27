@@ -71,5 +71,3 @@ This is the layer where specific driver implementation lies. In this layer we ca
 
 1. `make dep` (fetching all dependency)
 2. `make run`
-
-awkgnwalkgnawl
