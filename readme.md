@@ -67,7 +67,7 @@ This is the layer where specific driver implementation lies. In this layer we ca
 1. go 1.17 or higher
 2. postgresql
 
-## steps to run
+## steps to runs
 
 1. `make dep` (fetching all dependency)
 2. `make run`
